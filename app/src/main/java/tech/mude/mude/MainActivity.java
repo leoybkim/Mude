@@ -10,8 +10,10 @@ import com.estimote.sdk.BeaconManager;
 import com.estimote.sdk.EstimoteSDK;
 import com.estimote.sdk.Region;
 import com.estimote.sdk.SystemRequirementsChecker;
+import com.estimote.sdk.Utils;
 import com.estimote.sdk.cloud.model.Color;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -22,14 +24,21 @@ import java.util.concurrent.TimeUnit;
 import tech.mude.mude.estimote.BeaconID;
 import tech.mude.mude.estimote.EstimoteCloudBeaconDetails;
 import tech.mude.mude.estimote.EstimoteCloudBeaconDetailsFactory;
+import tech.mude.mude.estimote.NearestBeaconManager;
 import tech.mude.mude.estimote.ProximityContentManager;
 
 public class MainActivity extends AppCompatActivity {
 
     private static BeaconManager mBeaconManager;
     private ProximityContentManager mProximityContentManager;
-
+    private Beacon mNearestBeacon;
     private TextView mProximity;
+    private NearestBeaconManager mNearestBeaconManager;
+    private List<BeaconID> beaconIDs;
+    private BeaconID currentlyNearestBeaconID;
+    private boolean firstEventSent = false;
+    private NearestBeaconManager.Listener listener;
+
     private static final String TAG = MainActivity.class.getSimpleName();
 
     private static final Map<Color, Integer> BACKGROUND_COLORS = new HashMap<>();
@@ -49,6 +58,8 @@ public class MainActivity extends AppCompatActivity {
 
         // Setup token
         EstimoteSDK.initialize(this, "beacons-wearhacks-gmail-co-fm7", "0d11e8a3491c51a383ab8c85b55929b7");
+        beaconIDs = Arrays.asList(
+                new BeaconID("B9407F30-F5F8-466E-AFF9-25556B57FE6D", 33491, 34365));
 
         // Setup views
         mProximity = (TextView) findViewById(R.id.proximity);
@@ -69,8 +80,7 @@ public class MainActivity extends AppCompatActivity {
         mBeaconManager.setMonitoringListener(new BeaconManager.MonitoringListener(){
             @Override
             public void onEnteredRegion(Region region, List<Beacon> list) {
-                Beacon nearestBeacon = list.get(0);
-                mProximity.setText(String.valueOf(nearestBeacon.getRssi()));
+                mNearestBeacon = list.get(0);
             }
 
             @Override
@@ -78,6 +88,17 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+
+//        mBeaconManager.setRangingListener(new BeaconManager.RangingListener() {
+//            @Override
+//            public void onBeaconsDiscovered(Region region, List<Beacon> list) {
+//                if (!list.isEmpty()) {
+//                    mNearestBeacon = list.get(0);
+//                    mProximity.setText(String.valueOf(mNearestBeacon.getRssi()));
+//                    Log.d(TAG, String.valueOf(mNearestBeacon.getRssi()));
+//                }
+//            }
+//        });
 
         // Setup ProximityContentManager
         mProximityContentManager = new ProximityContentManager(this,
@@ -116,7 +137,23 @@ public class MainActivity extends AppCompatActivity {
             Log.e(TAG, "If this is fixable, you should see a popup on the app's screen right now, asking to enable what's necessary");
         } else {
             Log.d(TAG, "Starting ProximityContentManager content updates");
-            mProximityContentManager.startContentUpdates();
+//            mProximityContentManager.startContentUpdates();
+            mNearestBeaconManager = new NearestBeaconManager(this,
+                    Arrays.asList(new BeaconID("B9407F30-F5F8-466E-AFF9-25556B57FE6D", 33491, 34365)));
+
+            final Region ALL_ESTIMOTE_BEACONS = new Region("all Estimote beacons", null, null, null);
+            mBeaconManager.connect(new BeaconManager.ServiceReadyCallback() {
+                @Override
+                public void onServiceReady() {
+                    mBeaconManager.startRanging(ALL_ESTIMOTE_BEACONS);
+                }
+            });
+            mBeaconManager.setRangingListener(new BeaconManager.RangingListener() {
+                @Override
+                public void onBeaconsDiscovered(Region region, List<Beacon> list) {
+                    checkForNearestBeacon(list);
+                }
+            });
         }
     }
 
@@ -131,5 +168,55 @@ public class MainActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         mProximityContentManager.destroy();
+    }
+
+    private void checkForNearestBeacon(List<Beacon> allBeacons) {
+        List<Beacon> beaconsOfInterest = filterOutBeaconsByIDs(allBeacons, beaconIDs);
+        Beacon nearestBeacon = findNearestBeacon(beaconsOfInterest);
+        if (nearestBeacon != null) {
+            BeaconID nearestBeaconID = BeaconID.fromBeacon(nearestBeacon);
+            if (!nearestBeaconID.equals(currentlyNearestBeaconID) || !firstEventSent) {
+                updateNearestBeacon(nearestBeaconID);
+            }
+        } else if (currentlyNearestBeaconID != null || !firstEventSent) {
+            updateNearestBeacon(null);
+        }
+
+        mProximity.setText(String.valueOf(Utils.computeAccuracy(nearestBeacon)));
+    }
+
+    private void updateNearestBeacon(BeaconID beaconID) {
+        currentlyNearestBeaconID = beaconID;
+        firstEventSent = true;
+        if (listener != null) {
+            listener.onNearestBeaconChanged(beaconID);
+        }
+    }
+
+    private static List<Beacon> filterOutBeaconsByIDs(List<Beacon> beacons, List<BeaconID> beaconIDs) {
+        List<Beacon> filteredBeacons = new ArrayList<>();
+        for (Beacon beacon : beacons) {
+            BeaconID beaconID = BeaconID.fromBeacon(beacon);
+            if (beaconIDs.contains(beaconID)) {
+                filteredBeacons.add(beacon);
+            }
+        }
+        return filteredBeacons;
+    }
+
+    private static Beacon findNearestBeacon(List<Beacon> beacons) {
+        Beacon nearestBeacon = null;
+        double nearestBeaconsDistance = -1;
+        for (Beacon beacon : beacons) {
+            double distance = Utils.computeAccuracy(beacon);
+            if (distance > -1 &&
+                    (distance < nearestBeaconsDistance || nearestBeacon == null)) {
+                nearestBeacon = beacon;
+                nearestBeaconsDistance = distance;
+            }
+        }
+
+//        Log.d(TAG, "Nearest beacon: " + nearestBeacon + ", distance: " + nearestBeaconsDistance);
+        return nearestBeacon;
     }
 }
