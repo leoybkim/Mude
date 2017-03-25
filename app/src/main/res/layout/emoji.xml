@@ -1,91 +1,116 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-     android:background="@color/colorPrimaryDark"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_centerHorizontal="true">
-
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:gravity="center_horizontal"
-        android:layout_centerHorizontal="true"
-        android:id="@+id/linearLayout">
-
+        android:orientation="vertical">
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/greeting"
-            android:textSize="30sp"
-            android:textColor="#212121"/>
+            android:text="Mude"
+            android:textSize="30dp"
+            android:background="#8BC34A"
+            android:textColor="#FFFFFF"
+            android:padding="10dp"/>
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp">
-            <ImageButton
-                android:id="@+id/cool"
+            android:orientation="vertical"
+            android:layout_gravity="center_horizontal"
+            android:id="@+id/linearLayout">
+
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/cool"
-                android:layout_marginRight="10dp"/>
-            <ImageButton
-                android:id="@+id/cheeky"
+                android:text="@string/greeting"
+                android:layout_margin="30dp"
+                android:textSize="27sp"
+                android:textColor="#212121"/>
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/cheeky"/>
-            <ImageButton
-                android:id="@+id/surpriseme"
+                android:layout_gravity="center_horizontal">
+                <ImageButton
+                    android:id="@+id/cool"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/cool"
+                    android:layout_marginRight="10dp"
+                    tools:ignore="ContentDescription"/>
+                <ImageButton
+                    android:id="@+id/cheeky"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/cheeky"
+                    tools:ignore="ContentDescription"/>
+                <ImageButton
+                    android:id="@+id/surpriseme"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/surpriseme"
+                    android:layout_marginLeft="10dp"
+                    tools:ignore="ContentDescription"/>
+                </LinearLayout>
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/surpriseme"
-                android:layout_marginLeft="10dp"/>
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="30dp">
+                <ImageButton
+                    android:id="@+id/mellow"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/mellow"
+                    android:layout_marginRight="10dp"
+                    tools:ignore="ContentDescription"/>
+                <ImageButton
+                    android:id="@+id/nothingtoocray"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/nothingtoocray"
+                    tools:ignore="ContentDescription"/>
+                <ImageButton
+                    android:id="@+id/tired"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/tired"
+                    android:layout_marginLeft="10dp"
+                    tools:ignore="ContentDescription"/>
             </LinearLayout>
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp">
-            <ImageButton
-                android:id="@+id/mellow"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/mellow"
-                android:layout_marginRight="10dp"/>
-            <ImageButton
-                android:id="@+id/nothingtoocray"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/nothingtoocray"/>
-            <ImageButton
-                android:id="@+id/tired"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/tired"
-                android:layout_marginLeft="10dp"/>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp">
-            <ImageButton
-                android:id="@+id/annoyed"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/annoyed"
-                android:layout_marginRight="10dp"/>
-            <ImageButton
-                android:id="@+id/disaster"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/disaster"/>
-            <ImageButton
-                android:id="@+id/angry"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/angry"
-                android:layout_marginLeft="10dp"/>
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="30dp">
+                    <ImageButton
+                        android:id="@+id/annoyed"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/annoyed"
+                        tools:ignore="ContentDescription"
+                        android:layout_marginRight="10dp"
+                        android:adjustViewBounds="true" />
+
+
+                <ImageButton
+                    android:id="@+id/disaster"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/disaster"
+                    tools:ignore="ContentDescription"/>
+                <ImageButton
+                    android:id="@+id/angry"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/angry"
+                    android:layout_marginLeft="10dp"
+                    tools:ignore="ContentDescription"/>
+            </LinearLayout>
         </LinearLayout>
     </LinearLayout>
-
-
 </RelativeLayout>
