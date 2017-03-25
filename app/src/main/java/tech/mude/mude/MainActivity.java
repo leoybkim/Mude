@@ -3,7 +3,6 @@ package tech.mude.mude;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.estimote.sdk.Beacon;
@@ -46,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.mainactivity);
 
         // Setup token
         EstimoteSDK.initialize(this, "beacons-wearhacks-gmail-co-fm7", "0d11e8a3491c51a383ab8c85b55929b7");
