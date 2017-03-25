@@ -1,5 +1,7 @@
 package tech.mude.mude;
 
+import android.content.Context;
+import android.media.AudioManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -19,6 +21,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import tech.mude.mude.estimote.BeaconID;
@@ -29,6 +33,7 @@ import tech.mude.mude.estimote.ProximityContentManager;
 
 public class MainActivity extends AppCompatActivity {
 
+    // Estimote managers and variables
     private static BeaconManager mBeaconManager;
     private ProximityContentManager mProximityContentManager;
     private Beacon mNearestBeacon;
@@ -39,17 +44,27 @@ public class MainActivity extends AppCompatActivity {
     private boolean firstEventSent = false;
     private NearestBeaconManager.Listener listener;
 
+    // Distance variables
+    private double distance;
+    private ArrayList<Double> distanceArray = new ArrayList<>();
+    private double average = 0;
+    private double previousAverage = 0;
+
+    // Debugging variables
     private static final String TAG = MainActivity.class.getSimpleName();
 
+    // View variables
     private static final Map<Color, Integer> BACKGROUND_COLORS = new HashMap<>();
-
     static {
         BACKGROUND_COLORS.put(Color.ICY_MARSHMALLOW, android.graphics.Color.rgb(109, 170, 199));
         BACKGROUND_COLORS.put(Color.BLUEBERRY_PIE, android.graphics.Color.rgb(98, 84, 158));
         BACKGROUND_COLORS.put(Color.MINT_COCKTAIL, android.graphics.Color.rgb(155, 186, 160));
     }
-
     private static final int BACKGROUND_COLOR_NEUTRAL = android.graphics.Color.rgb(160, 169, 172);
+
+    // Volume control
+    AudioManager am;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,17 +104,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-//        mBeaconManager.setRangingListener(new BeaconManager.RangingListener() {
-//            @Override
-//            public void onBeaconsDiscovered(Region region, List<Beacon> list) {
-//                if (!list.isEmpty()) {
-//                    mNearestBeacon = list.get(0);
-//                    mProximity.setText(String.valueOf(mNearestBeacon.getRssi()));
-//                    Log.d(TAG, String.valueOf(mNearestBeacon.getRssi()));
-//                }
-//            }
-//        });
-
         // Setup ProximityContentManager
         mProximityContentManager = new ProximityContentManager(this,
                 Arrays.asList(
@@ -125,6 +129,8 @@ public class MainActivity extends AppCompatActivity {
                         backgroundColor != null ? backgroundColor : BACKGROUND_COLOR_NEUTRAL);
             }
         });
+
+        am = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
     }
 
     @Override
@@ -137,7 +143,12 @@ public class MainActivity extends AppCompatActivity {
             Log.e(TAG, "If this is fixable, you should see a popup on the app's screen right now, asking to enable what's necessary");
         } else {
             Log.d(TAG, "Starting ProximityContentManager content updates");
+
+            // TODO: check if you can remove this
 //            mProximityContentManager.startContentUpdates();
+
+            // This little snippet of code was taken out from the ProximityContentManager and NearestBeaconManager
+            // Need to take a better look at it later to clean it up
             mNearestBeaconManager = new NearestBeaconManager(this,
                     Arrays.asList(new BeaconID("B9407F30-F5F8-466E-AFF9-25556B57FE6D", 33491, 34365)));
 
@@ -154,6 +165,11 @@ public class MainActivity extends AppCompatActivity {
                     checkForNearestBeacon(list);
                 }
             });
+
+            // Takes average every second
+            // I think we should make this every 3 seconds or decrease (make it faster) the iBeacon interval
+            // Obviously not very accurate with 1 sec poll with 950 ms (0.95 sec) interval
+            timer();
         }
     }
 
@@ -170,6 +186,7 @@ public class MainActivity extends AppCompatActivity {
         mProximityContentManager.destroy();
     }
 
+    // TODO: clean up later
     private void checkForNearestBeacon(List<Beacon> allBeacons) {
         List<Beacon> beaconsOfInterest = filterOutBeaconsByIDs(allBeacons, beaconIDs);
         Beacon nearestBeacon = findNearestBeacon(beaconsOfInterest);
@@ -182,7 +199,14 @@ public class MainActivity extends AppCompatActivity {
             updateNearestBeacon(null);
         }
 
-        mProximity.setText(String.valueOf(Utils.computeAccuracy(nearestBeacon)));
+        if (nearestBeacon != null) {
+            // Saves distance between estimote and phone
+            distance = Utils.computeAccuracy(nearestBeacon);
+            // Updates textview
+            mProximity.setText(String.valueOf(distance));
+            // Appends distance value to array
+            distanceArray.add(distance);
+        }
     }
 
     private void updateNearestBeacon(BeaconID beaconID) {
@@ -218,5 +242,35 @@ public class MainActivity extends AppCompatActivity {
 
 //        Log.d(TAG, "Nearest beacon: " + nearestBeacon + ", distance: " + nearestBeaconsDistance);
         return nearestBeacon;
+    }
+
+
+    // TODO: modularize this code
+    private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+    public void timer() {
+        final Runnable exec = new Runnable() {
+            public void run() {
+                //Take average of distance
+                int count = 0;
+                double sum = 0;
+                for (double distance: distanceArray) {
+                    sum += distance;
+                    count += 1;
+                }
+                previousAverage = average;
+                average = (sum / count);
+                Log.d("AVERAGE", String.valueOf(average));
+
+                if (previousAverage < average) {
+                    am.setStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_RAISE, AudioManager.FLAG_SHOW_UI);
+                } else if (previousAverage > average) {
+                    am.setStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_LOWER, AudioManager.FLAG_SHOW_UI);
+                }
+
+                distanceArray.clear();
+            }
+        };
+        //Calls the runnable function every second with a 0 second delay
+        scheduler.scheduleAtFixedRate(exec, 0, 2, TimeUnit.SECONDS);
     }
 }
