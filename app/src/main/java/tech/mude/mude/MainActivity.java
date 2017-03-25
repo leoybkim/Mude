@@ -48,7 +48,6 @@ public class MainActivity extends AppCompatActivity {
     private double distance;
     private ArrayList<Double> distanceArray = new ArrayList<>();
     private double average = 0;
-    private double previousAverage = 0;
 
     // Debugging variables
     private static final String TAG = MainActivity.class.getSimpleName();
@@ -257,20 +256,12 @@ public class MainActivity extends AppCompatActivity {
                     sum += distance;
                     count += 1;
                 }
-                previousAverage = average;
                 average = (sum / count);
-                Log.d("AVERAGE", String.valueOf(average));
-
-                if (previousAverage < average) {
-                    am.setStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_RAISE, AudioManager.FLAG_SHOW_UI);
-                } else if (previousAverage > average) {
-                    am.setStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_LOWER, AudioManager.FLAG_SHOW_UI);
-                }
-
+                am.setStreamVolume(AudioManager.STREAM_MUSIC, (int)(3 + average*3), AudioManager.FLAG_SHOW_UI);
                 distanceArray.clear();
             }
         };
         //Calls the runnable function every second with a 0 second delay
-        scheduler.scheduleAtFixedRate(exec, 0, 2, TimeUnit.SECONDS);
+        scheduler.scheduleAtFixedRate(exec, 0, 3, TimeUnit.SECONDS);
     }
 }
