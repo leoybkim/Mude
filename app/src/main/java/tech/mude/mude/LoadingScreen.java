@@ -11,6 +11,6 @@ public class LoadingScreen extends Activity{
     @Override
     protected void onCreate( Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.loading_screen);
+        setContentView(R.layout.activity_main);
     }
 }

@@ -18,9 +18,6 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/mudetext"/>
         </LinearLayout>
-
-
     </RelativeLayout>
-
 
 </RelativeLayout>

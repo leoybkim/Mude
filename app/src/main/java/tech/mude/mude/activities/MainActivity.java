@@ -1,4 +1,4 @@
-package tech.mude.mude;
+package tech.mude.mude.activities;
 
 import android.content.Context;
 import android.media.AudioManager;
@@ -25,6 +25,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+import tech.mude.mude.R;
 import tech.mude.mude.estimote.BeaconID;
 import tech.mude.mude.estimote.EstimoteCloudBeaconDetails;
 import tech.mude.mude.estimote.EstimoteCloudBeaconDetailsFactory;
