@@ -3,6 +3,7 @@ package tech.mude.mude;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.estimote.sdk.Beacon;
@@ -52,7 +53,6 @@ public class MainActivity extends AppCompatActivity {
 
         // Setup views
         mProximity = (TextView) findViewById(R.id.proximity);
-
         // Setup Beacon Manager
         mBeaconManager = new BeaconManager(getApplicationContext());
         mBeaconManager.setBackgroundScanPeriod(TimeUnit.SECONDS.toMillis(1), 0);
