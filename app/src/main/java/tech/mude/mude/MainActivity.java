@@ -5,7 +5,6 @@ import android.media.AudioManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.estimote.sdk.Beacon;
@@ -38,17 +37,21 @@ public class MainActivity extends AppCompatActivity {
     private static BeaconManager mBeaconManager;
     private ProximityContentManager mProximityContentManager;
     private Beacon mNearestBeacon;
-    private TextView mProximity;
     private NearestBeaconManager mNearestBeaconManager;
     private List<BeaconID> beaconIDs;
     private BeaconID currentlyNearestBeaconID;
     private boolean firstEventSent = false;
     private NearestBeaconManager.Listener listener;
 
+    // View
+    private TextView mProximity;
+    private TextView mVolumeIndex;
+
     // Distance variables
     private double distance;
     private ArrayList<Double> distanceArray = new ArrayList<>();
     private double average = 0;
+    int volume = 0;
 
     // Debugging variables
     private static final String TAG = MainActivity.class.getSimpleName();
@@ -78,6 +81,8 @@ public class MainActivity extends AppCompatActivity {
 
         // Setup views
         mProximity = (TextView) findViewById(R.id.proximity);
+        mVolumeIndex = (TextView) findViewById(R.id.volume_index);
+
         // Setup Beacon Manager
         mBeaconManager = new BeaconManager(getApplicationContext());
         mBeaconManager.setBackgroundScanPeriod(TimeUnit.SECONDS.toMillis(1), 0);
@@ -203,6 +208,7 @@ public class MainActivity extends AppCompatActivity {
             distance = Utils.computeAccuracy(nearestBeacon);
             // Updates textview
             mProximity.setText(String.valueOf(distance));
+            mVolumeIndex.setText(String.valueOf(volume));
             // Appends distance value to array
             distanceArray.add(distance);
         }
@@ -249,15 +255,15 @@ public class MainActivity extends AppCompatActivity {
     public void timer() {
         final Runnable exec = new Runnable() {
             public void run() {
+
                 //Take average of distance
-                int count = 0;
                 double sum = 0;
                 for (double distance: distanceArray) {
                     sum += distance;
-                    count += 1;
                 }
-                average = (sum / count);
-                am.setStreamVolume(AudioManager.STREAM_MUSIC, (int)(3 + average*3), AudioManager.FLAG_SHOW_UI);
+                average = (sum / distanceArray.size());
+                volume = (int) (3 + average*3);
+                am.setStreamVolume(AudioManager.STREAM_MUSIC, volume, 0);
                 distanceArray.clear();
             }
         };

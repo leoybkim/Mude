@@ -41,4 +41,12 @@
         android:textAlignment="center"
         android:text="test"/>
 
+    <TextView
+        android:id="@+id/volume_index"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/proximity"
+        android:layout_marginTop="30dp"
+        android:textAlignment="center"/>
+
 </RelativeLayout>
