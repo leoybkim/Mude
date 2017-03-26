@@ -1,12 +1,17 @@
 package tech.mude.mude.activities;
 
+import android.app.ActionBar;
 import android.app.DialogFragment;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import tech.mude.mude.R;
 
@@ -20,7 +25,23 @@ public class MoodActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mood);
 
-        // Launch service
+        // Custom action bar font
+        TextView actionBar = new TextView(getApplicationContext());
+        RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(ActionBar.LayoutParams.WRAP_CONTENT, ActionBar.LayoutParams.WRAP_CONTENT);
+        actionBar.setLayoutParams(lp);
+        actionBar.setText("Mude");
+        actionBar.setTextSize(24);
+        actionBar.setTextColor(Color.parseColor("#FFFFFF"));
+        Typeface tf = Typeface.createFromAsset(getAssets(), "Exo-Regular.otf");
+        actionBar.setTypeface(tf);
+        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        getSupportActionBar().setCustomView(actionBar);
+
+        // Set custom font
+        Typeface face;
+        TextView test = (TextView) findViewById(R.id.how_are_you);
+        face = Typeface.createFromAsset(getAssets(), "Exo-Regular.otf");
+        test.setTypeface(face);
 
         ImageButton annoyed = (ImageButton) findViewById(R.id.annoyed);
         annoyed.setOnClickListener(new View.OnClickListener() {

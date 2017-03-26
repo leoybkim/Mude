@@ -8,5 +8,4 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="windowActionBar">@color/colorPrimary</item>
     </style>
-
 </resources>

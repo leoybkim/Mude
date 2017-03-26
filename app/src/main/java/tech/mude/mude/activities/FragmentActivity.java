@@ -3,6 +3,7 @@ package tech.mude.mude.activities;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -130,8 +131,12 @@ public class FragmentActivity extends DialogFragment{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragement_dialog, container, false);
-        View tv = v.findViewById(R.id.textView2);
-        ((TextView)tv).setText(quote);
+        TextView tv = (TextView) v.findViewById(R.id.textView2);
+        tv.setText(quote);
+
+        Typeface face;
+        face = Typeface.createFromAsset(getApplicationContext().getAssets(), "Exo-Regular.otf");
+        tv.setTypeface(face);
 
         return v;
 
