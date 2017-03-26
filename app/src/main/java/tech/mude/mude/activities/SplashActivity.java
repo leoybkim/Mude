@@ -5,8 +5,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 
-import com.spotify.sdk.android.authentication.LoginActivity;
-
 import tech.mude.mude.R;
 
 /**
