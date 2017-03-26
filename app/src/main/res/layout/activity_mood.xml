@@ -29,21 +29,21 @@
                 android:layout_gravity="center_horizontal">
                 <ImageButton
                     android:id="@+id/cool"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="110dp"
+                    android:layout_height="110dp"
                     android:background="@drawable/cool"
                     android:layout_marginRight="10dp"
                     tools:ignore="ContentDescription"/>
                 <ImageButton
                     android:id="@+id/cheeky"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="110dp"
+                    android:layout_height="110dp"
                     android:background="@drawable/cheeky"
                     tools:ignore="ContentDescription"/>
                 <ImageButton
                     android:id="@+id/surpriseme"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="110dp"
+                    android:layout_height="110dp"
                     android:background="@drawable/surpriseme"
                     android:layout_marginLeft="10dp"
                     tools:ignore="ContentDescription"/>
@@ -55,21 +55,21 @@
                 android:layout_marginTop="30dp">
                 <ImageButton
                     android:id="@+id/mellow"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="110dp"
+                    android:layout_height="110dp"
                     android:background="@drawable/mellow"
                     android:layout_marginRight="10dp"
                     tools:ignore="ContentDescription"/>
                 <ImageButton
                     android:id="@+id/nothingtoocray"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="110dp"
+                    android:layout_height="110dp"
                     android:background="@drawable/nothingtoocray"
                     tools:ignore="ContentDescription"/>
                 <ImageButton
                     android:id="@+id/tired"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="110dp"
+                    android:layout_height="110dp"
                     android:background="@drawable/tired"
                     android:layout_marginLeft="10dp"
                     tools:ignore="ContentDescription"/>
@@ -79,26 +79,24 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="30dp">
-                    <ImageButton
-                        android:id="@+id/annoyed"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/annoyed"
-                        tools:ignore="ContentDescription"
-                        android:layout_marginRight="10dp"
-                        android:adjustViewBounds="true" />
-
-
+                <ImageButton
+                    android:id="@+id/annoyed"
+                    android:layout_width="110dp"
+                    android:layout_height="110dp"
+                    android:background="@drawable/annoyed"
+                    tools:ignore="ContentDescription"
+                    android:layout_marginRight="10dp"
+                    android:adjustViewBounds="true" />
                 <ImageButton
                     android:id="@+id/disaster"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="110dp"
+                    android:layout_height="110dp"
                     android:background="@drawable/disaster"
                     tools:ignore="ContentDescription"/>
                 <ImageButton
                     android:id="@+id/angry"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="110dp"
+                    android:layout_height="110dp"
                     android:background="@drawable/angry"
                     android:layout_marginLeft="10dp"
                     tools:ignore="ContentDescription"/>
