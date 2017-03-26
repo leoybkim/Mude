@@ -227,6 +227,9 @@ public class AudioService extends Service {
                 }
                 average = (sum / distanceArray.size());
                 volume = (int) (3 + average*3);
+
+                Log.d(TAG, String.valueOf(volume));
+
                 am.setStreamVolume(AudioManager.STREAM_MUSIC, volume, 0);
                 distanceArray.clear();
             }

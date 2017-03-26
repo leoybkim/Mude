@@ -25,7 +25,6 @@ public class SplashActivity extends AppCompatActivity {
                 /* Create an Intent that will start the Menu-Activity. */
                 Intent intent = new Intent(getApplicationContext(), MoodActivity.class);
                 startActivity(intent);
-                finish();
             }
         }, SPLASH_DISPLAY_LENGTH);
     }

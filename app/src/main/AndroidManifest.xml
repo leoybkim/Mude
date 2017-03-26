@@ -3,7 +3,7 @@
     package="tech.mude.mude">
     <uses-permission android:name="android.permission.BLUETOOTH"/>
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
     <uses-permission android:name="android.permission.INTERNET"/>
     <application
         android:allowBackup="true"
@@ -26,15 +26,9 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".activities.MLActivity">
-        </activity>
-
         <activity android:name=".activities.MoodActivity">
         </activity>
-        <activity
-            android:launchMode="singleInstance"
-            android:name="com.spotify.sdk.android.authentication.LoginActivity"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
+
     </application>
 
 </manifest>
