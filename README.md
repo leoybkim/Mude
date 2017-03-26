@@ -1,6 +1,6 @@
 
 
-<img src='http://i.imgur.com/ZHK9sdl.gif' title='Video Walkthrough' width='' alt='Video Walkthrough'/> 
+<img src='http://i.imgur.com/ZHK9sdl.gif' title='Video Walkthrough' width='' alt='Video Walkthrough'/><img src='http://i.imgur.com/F9UpB9l.jpg' title='Banana for scale' width='500' hspace='10' alt='Banana for scale'/>
 
 ## Inspiration
 Have you ever wished you can hear your favourite music at the *same* volume no matter how far away you are?
