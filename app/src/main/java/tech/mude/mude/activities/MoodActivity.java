@@ -2,18 +2,13 @@ package tech.mude.mude.activities;
 
 import android.app.DialogFragment;
 import android.app.Fragment;
-import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageButton;
 
 import tech.mude.mude.R;
-import tech.mude.mude.services.AudioService;
 
 /**
  * Created by leo on 25/03/17.
@@ -26,8 +21,7 @@ public class MoodActivity extends AppCompatActivity {
         setContentView(R.layout.activity_mood);
 
         // Launch service
-        AudioService.stopService();
-        launchTestService();
+
         ImageButton annoyed = (ImageButton) findViewById(R.id.annoyed);
         annoyed.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -148,15 +142,6 @@ public class MoodActivity extends AppCompatActivity {
         });
 
 
-    }
-
-    // Call `launchTestService()` in the activity
-    // to startup the service
-    public void launchTestService() {
-        // Construct our Intent specifying the Service
-        Intent i = new Intent(this, AudioService.class);
-        // Start the service
-        startService(i);
     }
 }
 

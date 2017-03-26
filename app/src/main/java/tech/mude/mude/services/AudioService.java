@@ -57,8 +57,10 @@ public class AudioService extends Service {
 
     private static String TAG = AudioService.class.getSimpleName();
 
-    public AudioService(Context context) {
-        mContext = context;
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mProximityContentManager.destroy();
     }
 
     @Nullable
@@ -67,15 +69,9 @@ public class AudioService extends Service {
         return null;
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        mProximityContentManager.destroy();
-    }
-
-    public AudioService() {
-        super();
-    }
+//    public AudioService() {
+//        super();
+//    }
 
     @Override
     public void onCreate() {
@@ -136,7 +132,7 @@ public class AudioService extends Service {
 
         am = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
 
-       mNearestBeaconManager = new NearestBeaconManager(this,
+        mNearestBeaconManager = new NearestBeaconManager(this,
                 Arrays.asList(new BeaconID("B9407F30-F5F8-466E-AFF9-25556B57FE6D", 23105, 37595)));
 
         final Region ALL_ESTIMOTE_BEACONS = new Region("all Estimote beacons", null, null, null);
@@ -239,20 +235,5 @@ public class AudioService extends Service {
         };
         //Calls the runnable function every second with a 0 second delay
         scheduler.scheduleAtFixedRate(exec, 0, 3, TimeUnit.SECONDS);
-    }
-
-    public static void stopService() {
-        if (mProximityContentManager != null) {
-            mProximityContentManager.destroy();
-        }
-
-        if (mBeaconManager != null) {
-            mBeaconManager.disconnect();
-        }
-
-        if (mNearestBeaconManager != null) {
-            mNearestBeaconManager.destroy();
-        }
-
     }
 }

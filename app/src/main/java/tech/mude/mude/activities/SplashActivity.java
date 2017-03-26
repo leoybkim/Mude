@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 
 import tech.mude.mude.R;
+import tech.mude.mude.services.AudioService;
 
 /**
  * Created by leo on 25/03/17.
@@ -19,6 +20,8 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
+        launchTestService();
+
         new Handler().postDelayed(new Runnable(){
             @Override
             public void run() {
@@ -27,5 +30,15 @@ public class SplashActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         }, SPLASH_DISPLAY_LENGTH);
+
+    }
+
+    // Call `launchTestService()` in the activity
+    // to startup the service
+    public void launchTestService() {
+        // Construct our Intent specifying the Service
+        Intent i = new Intent(this, AudioService.class);
+        // Start the service
+        startService(i);
     }
 }
