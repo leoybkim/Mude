@@ -18,6 +18,8 @@ import com.example.faizaanmadhani.emojimenu.Emotions.Sad;
 import com.example.faizaanmadhani.emojimenu.Emotions.SurpriseMe;
 import com.example.faizaanmadhani.emojimenu.Emotions.Tired;
 
+import tech.mude.mude.R;
+
 
 public class EmojiActivity extends AppCompatActivity {
     public class MyActivity extends Activity {
