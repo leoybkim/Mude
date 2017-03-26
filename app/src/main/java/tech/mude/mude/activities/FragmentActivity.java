@@ -26,6 +26,7 @@ public class FragmentActivity extends DialogFragment{
     int num;
     String quote;
     String uri;
+    Random ran = new Random();
 
     static FragmentActivity newInstance(int num) {
         FragmentActivity f = new FragmentActivity();
@@ -40,8 +41,8 @@ public class FragmentActivity extends DialogFragment{
         super.onCreate(savedInstanceState);
         num = getArguments().getInt("num");
 
-        Random ran = new Random();
-        int i = ran.nextInt(1);
+
+        int i = ran.nextInt(2);
         //switch statement to decide which statement
         switch (num) {
             case 1:
@@ -133,6 +134,18 @@ public class FragmentActivity extends DialogFragment{
         View v = inflater.inflate(R.layout.fragement_dialog, container, false);
         TextView tv = (TextView) v.findViewById(R.id.textView2);
         tv.setText(quote);
+        int i = ran.nextInt(3);
+        switch (i) {
+            case 0:
+                tv.setBackgroundColor(getApplicationContext().getResources().getColor(R.color.blueberry_pie));
+                break;
+            case 1:
+                tv.setBackgroundColor(getApplicationContext().getResources().getColor(R.color.icy_marshmellow));
+                break;
+            case 2:
+                tv.setBackgroundColor(getApplicationContext().getResources().getColor(R.color.mint_cocktail));
+                break;
+        }
 
         Typeface face;
         face = Typeface.createFromAsset(getApplicationContext().getAssets(), "Exo-Regular.otf");

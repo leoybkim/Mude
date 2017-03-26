@@ -54,6 +54,7 @@ public class AudioService extends Service {
     AudioManager am;
 
     private Context mContext;
+    private Intent mIntent;
 
     private static String TAG = AudioService.class.getSimpleName();
 
@@ -61,11 +62,15 @@ public class AudioService extends Service {
     public void onDestroy() {
         super.onDestroy();
         mProximityContentManager.destroy();
+        mBeaconManager.disconnect();
+        mNearestBeaconManager.destroy();
+        stopService(mIntent);
     }
 
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
+        mIntent = intent;
         return null;
     }
 
@@ -250,5 +255,12 @@ public class AudioService extends Service {
         };
         //Calls the runnable function every second with a 0 second delay
         scheduler.scheduleAtFixedRate(exec, 0, 3, TimeUnit.SECONDS);
+    }
+
+    public static void stopService() {
+        Log.d(TAG, "stopSErvice()");
+        mProximityContentManager.destroy();
+        mBeaconManager.disconnect();
+        mNearestBeaconManager.destroy();
     }
 }

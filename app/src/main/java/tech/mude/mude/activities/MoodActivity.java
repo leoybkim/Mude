@@ -8,18 +8,28 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import tech.mude.mude.R;
+import tech.mude.mude.services.AudioService;
 
 /**
  * Created by leo on 25/03/17.
  */
 
 public class MoodActivity extends AppCompatActivity {
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.d("Mood","ondestroooooooy");
+        AudioService.stopService();
+
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
