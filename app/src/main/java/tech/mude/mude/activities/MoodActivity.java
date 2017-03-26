@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.TextView;
 import android.widget.ImageButton;
 
 import tech.mude.mude.R;
@@ -23,6 +22,7 @@ public class MoodActivity extends AppCompatActivity {
         setContentView(R.layout.activity_mood);
 
         // Launch service
+        AudioService.stopService();
         launchTestService();
         ImageButton annoyed = (ImageButton) findViewById(R.id.annoyed);
         annoyed.setOnClickListener(new View.OnClickListener() {

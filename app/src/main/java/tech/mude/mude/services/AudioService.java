@@ -36,9 +36,9 @@ public class AudioService extends Service {
 
     // Estimote managers and variables
     private static BeaconManager mBeaconManager;
-    private ProximityContentManager mProximityContentManager;
+    private static ProximityContentManager mProximityContentManager;
     private Beacon mNearestBeacon;
-    private NearestBeaconManager mNearestBeaconManager;
+    private static NearestBeaconManager mNearestBeaconManager;
     private List<BeaconID> beaconIDs;
     private BeaconID currentlyNearestBeaconID;
     private boolean firstEventSent = false;
@@ -83,7 +83,7 @@ public class AudioService extends Service {
         // Setup token
         EstimoteSDK.initialize(this, "beacons-wearhacks-gmail-co-fm7", "0d11e8a3491c51a383ab8c85b55929b7");
         beaconIDs = Arrays.asList(
-                new BeaconID("B9407F30-F5F8-466E-AFF9-25556B57FE6D", 33491, 34365));
+                new BeaconID("B9407F30-F5F8-466E-AFF9-25556B57FE6D", 23105, 37595));
 
 
         // Setup Beacon Manager
@@ -114,7 +114,7 @@ public class AudioService extends Service {
         // Setup ProximityContentManager
         mProximityContentManager = new ProximityContentManager(this,
                 Arrays.asList(
-                        new BeaconID("B9407F30-F5F8-466E-AFF9-25556B57FE6D", 33491, 34365)),
+                        new BeaconID("B9407F30-F5F8-466E-AFF9-25556B57FE6D", 23105, 37595)),
                 new EstimoteCloudBeaconDetailsFactory());
 
         mProximityContentManager.setListener(new ProximityContentManager.Listener() {
@@ -137,7 +137,7 @@ public class AudioService extends Service {
         am = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
 
        mNearestBeaconManager = new NearestBeaconManager(this,
-                Arrays.asList(new BeaconID("B9407F30-F5F8-466E-AFF9-25556B57FE6D", 33491, 34365)));
+                Arrays.asList(new BeaconID("B9407F30-F5F8-466E-AFF9-25556B57FE6D", 23105, 37595)));
 
         final Region ALL_ESTIMOTE_BEACONS = new Region("all Estimote beacons", null, null, null);
         mBeaconManager.connect(new BeaconManager.ServiceReadyCallback() {
@@ -209,7 +209,7 @@ public class AudioService extends Service {
             }
         }
 
-//        Log.d(TAG, "Nearest beacon: " + nearestBeacon + ", distance: " + nearestBeaconsDistance);
+        Log.d(TAG, "Nearest beacon: " + nearestBeacon + ", distance: " + nearestBeaconsDistance);
         return nearestBeacon;
     }
 
@@ -223,18 +223,36 @@ public class AudioService extends Service {
                 //Take average of distance
                 double sum = 0;
                 for (double distance: distanceArray) {
+                    Log.d(TAG, String.valueOf(distance));
                     sum += distance;
                 }
                 average = (sum / distanceArray.size());
-                volume = (int) (3 + average*3);
+                volume = (int) (3 + average*4);
 
                 Log.d(TAG, String.valueOf(volume));
 
-                am.setStreamVolume(AudioManager.STREAM_MUSIC, volume, 0);
+                if (distanceArray.size() != 0) {
+                    am.setStreamVolume(AudioManager.STREAM_MUSIC, volume, 0);
+                }
                 distanceArray.clear();
             }
         };
         //Calls the runnable function every second with a 0 second delay
         scheduler.scheduleAtFixedRate(exec, 0, 3, TimeUnit.SECONDS);
+    }
+
+    public static void stopService() {
+        if (mProximityContentManager != null) {
+            mProximityContentManager.destroy();
+        }
+
+        if (mBeaconManager != null) {
+            mBeaconManager.disconnect();
+        }
+
+        if (mNearestBeaconManager != null) {
+            mNearestBeaconManager.destroy();
+        }
+
     }
 }
