@@ -218,6 +218,7 @@ public class AudioService extends Service {
 
                 //Take average of distance
                 double sum = 0;
+                int prevVolume = volume;
                 for (double distance: distanceArray) {
                     Log.d(TAG, String.valueOf(distance));
                     sum += distance;
@@ -227,8 +228,22 @@ public class AudioService extends Service {
 
                 Log.d(TAG, String.valueOf(volume));
 
+                // Cap the max volume
+                if (volume > am.getStreamMaxVolume(AudioManager.STREAM_MUSIC)) {
+                    volume = am.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+                }
+
                 if (distanceArray.size() != 0) {
-                    am.setStreamVolume(AudioManager.STREAM_MUSIC, volume, 0);
+
+                    if (prevVolume < volume) {
+                        for (int i = prevVolume; i <= volume; i++) {
+                            am.setStreamVolume(AudioManager.STREAM_MUSIC, i, AudioManager.FLAG_SHOW_UI);
+                        }
+                    } else if (prevVolume > volume) {
+                        for (int i = prevVolume; i >= volume; i--) {
+                            am.setStreamVolume(AudioManager.STREAM_MUSIC, i, AudioManager.FLAG_SHOW_UI);
+                        }
+                    }
                 }
                 distanceArray.clear();
             }
