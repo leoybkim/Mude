@@ -136,42 +136,7 @@ public class AudioService extends Service {
 
         am = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
 
-//        if (!SystemRequirementsChecker.checkWithDefaultDialogs((Activity) mContext)) {
-//            Log.e(TAG, "Can't scan for beacons, some pre-conditions were not met");
-//            Log.e(TAG, "Read more about what's required at: http://estimote.github.io/Android-SDK/JavaDocs/com/estimote/sdk/SystemRequirementsChecker.html");
-//            Log.e(TAG, "If this is fixable, you should see a popup on the app's screen right now, asking to enable what's necessary");
-//        } else {
-//            Log.d(TAG, "Starting ProximityContentManager content updates");
-//
-//            // TODO: check if you can remove this
-////            mProximityContentManager.startContentUpdates();
-//
-//            // This little snippet of code was taken out from the ProximityContentManager and NearestBeaconManager
-//            // Need to take a better look at it later to clean it up
-//            mNearestBeaconManager = new NearestBeaconManager(this,
-//                    Arrays.asList(new BeaconID("B9407F30-F5F8-466E-AFF9-25556B57FE6D", 33491, 34365)));
-//
-//            final Region ALL_ESTIMOTE_BEACONS = new Region("all Estimote beacons", null, null, null);
-//            mBeaconManager.connect(new BeaconManager.ServiceReadyCallback() {
-//                @Override
-//                public void onServiceReady() {
-//                    mBeaconManager.startRanging(ALL_ESTIMOTE_BEACONS);
-//                }
-//            });
-//            mBeaconManager.setRangingListener(new BeaconManager.RangingListener() {
-//                @Override
-//                public void onBeaconsDiscovered(Region region, List<Beacon> list) {
-//                    checkForNearestBeacon(list);
-//                }
-//            });
-//
-//            // Takes average every second
-//            // I think we should make this every 3 seconds or decrease (make it faster) the iBeacon interval
-//            // Obviously not very accurate with 1 sec poll with 950 ms (0.95 sec) interval
-//            timer();
-//        }
-
-        mNearestBeaconManager = new NearestBeaconManager(this,
+       mNearestBeaconManager = new NearestBeaconManager(this,
                 Arrays.asList(new BeaconID("B9407F30-F5F8-466E-AFF9-25556B57FE6D", 33491, 34365)));
 
         final Region ALL_ESTIMOTE_BEACONS = new Region("all Estimote beacons", null, null, null);
@@ -189,8 +154,6 @@ public class AudioService extends Service {
         });
 
         // Takes average every second
-        // I think we should make this every 3 seconds or decrease (make it faster) the iBeacon interval
-        // Obviously not very accurate with 1 sec poll with 950 ms (0.95 sec) interval
         timer();
     }
 
