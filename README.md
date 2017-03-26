@@ -2,9 +2,8 @@
 
 <img src='http://i.imgur.com/ZHK9sdl.gif' title='Video Walkthrough' width='' alt='Video Walkthrough'/> 
 
-
 ## Inspiration
-Have you ever wished you can hear your favourite music at the _ same _ volume no matter how far away you are?
+Have you ever wished you can hear your favourite music at the *same* volume no matter how far away you are?
 Well we all know you have been wanting to solve this problem!
 
 ## What it does
@@ -17,10 +16,10 @@ We utilized the RSSI values to convert Bluetooth signal strength to distance in 
 The most difficult challenge we have faced while developing was implementing third party APIs. Especially we had trouble integrating Spotify's Android SDK since the authentication documentations were outdated, unsupported and beta versions were unstable. Another problem we ran into was memory leaks while using the Estimote proximity beacons. We found out that the services launched while running the app  didn't completely shut off after the app was closed. 
 
 ## Accomplishments that we're proud of
-Longest hours stayed awake: 33 hours (Barick)
-Most cups of coffees consumed: 9 cups (Leo)
-Finishing a bowl of spicy noodles (Tara)
-Youngest participant grade 10 (Faizaan)
+Longest hours stayed awake: 33 hours (Barick)  
+Most cups of coffees consumed: 9 cups (Leo)  
+Finishing a bowl of spicy noodles (Tara)  
+Youngest participant grade 10 (Faizaan)  
 
 ## What we learned
 ~~Spotify API sucks~~
