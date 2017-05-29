@@ -4,7 +4,7 @@
 
 ## Inspiration
 Have you ever wished you can hear your favourite music at the *same* volume no matter how far away you are?
-Well we all know you have been wanting to solve this problem!
+Well we all know you have been wanting to solve this problem!!
 
 ## What it does
 Mude levels out the speaker volume no matter where you stand in the room. The further away you are from the speaker, the louder it plays, and conversely, the closer you stand, the softer the sound. Mude is a smart music playing app that allows users to continue their daily routines with consistent music without having to touch a button.
